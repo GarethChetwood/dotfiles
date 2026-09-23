@@ -9,17 +9,27 @@
 mkdir ~/Documents/Workspace && cd ~/Documents/Workspace/ && git clone https://github.com/Gazareth/dotfiles.git;
 ```
 
-### Zsh config
+### Core Apps
 
-#### `.zshrc` and `.zprofile`
+See a [full app list](docs/Apps.md)
+
+#### Zsh config
+
+##### `.zshrc` and `.zprofile`
 
 ```bash
 CONFIGS_PATH="$HOME/Documents/Workspace/dotfiles/MacOS/configs"     # Edit this to match your setup
-ln -s "$CONFIGS_PATH/.zshrc" "$HOME/.zshrc"                         # This creates a symbolic link so that .zshrc remains source-controlled
+```
+
+```bash
+ln -s "$CONFIGS_PATH/zsh/.zshrc" "$HOME/.zshrc"                         # This creates a symbolic link so that .zshrc remains source-controlled
+```
+
+```bash
 cp $CONFIGS_PATH/zsh/.zprofile-example $HOME/.zprofile              # Creates your .zprofile - you must edit this next!
 ```
 
-#### Configure your `.zprofile`
+##### Configure your `.zprofile`
 
 Fill in the values for:
 
@@ -37,9 +47,7 @@ And also comment/uncomment any **modules** you want to use.
 
 Restart your terminal. This will source all the new files, and hopefully complete your **zsh** setup
 
-
-
-### Brew
+#### Brew
 
 Follow steps at https://brew.sh/
 
@@ -56,42 +64,107 @@ Follow steps at https://brew.sh/
 > ```
 >
 
-### Warp
+#### Warp
 
 Fully featured modern terminal, with text-editor-style input.
 
 https://formulae.brew.sh/cask/warp#default
 
-### Karabiner
+#### Karabiner
 
 Config-based low-level keyboard remaps, with community snippets
 
 [Homebrew Formulae - Karabiner Elements](https://formulae.brew.sh/cask/karabiner-elements)
 
-#### Install (via brew)
+##### Install (via brew)
 
 ```bash
 brew install --cask karabiner-elements
 ```
 
-My config is at `configs/.config/karabiner`
+##### Config
 
-### Blink
+My config is at `configs/.config/karabiner`. We'll make a symlink so it stays within the source-controlled location.
+
+```bash
+rmdir "$HOME/.config/karabiner" # Remove the existing dir created by karabiner -- CLOSE KARABINER FIRST
+```
+
+```bash
+ln -s "$DOTFILES_CONFIG_PATH/.config/karabiner" "$HOME/.config/karabiner"
+```
+
+#### Blink
 
 Instant desktop ("space") switching
 
+https://github.com/benkoppe/Blink
 
+##### Install (via brew)
 
-### Hammerspoon
+```bash
+brew install --cask benkoppe/tap/blink
+```
 
-Scripting system that allows me to:
+##### Config
 
-- Toggle windows (bring to front/send to back)
-  - Finder
-  - System settings
-  - Slack
-    - On multi monitor, moves mouse to & from slack monitor
-- Drag to scroll when holding middle mouse
-- Shortcuts for going to start/end of line, with optional highlighting
+Via GUI
 
-#### Install (via brew)
+- Grant permissions
+- Set a hotkey for each space/desktop
+- Enable to run at login
+
+#### Hammerspoon
+
+Lua scripting for OS tasks (window management, page scrolling, etc.)
+
+https://github.com/hammerspoon/hammerspoon
+
+##### Install (via brew)
+
+```bash
+brew install hammerspoon --cask
+```
+#### Config
+
+```bash
+ln -s "$DOTFILES_CONFIG_PATH/.config/.hammerspoon" "$HOME/.hammerspoon"
+```
+#### Raycast
+
+Desktop helper (app search, emoji search, snippets, quick links)
+
+https://www.raycast.com/
+
+##### Install (via brew)
+
+```bash
+brew install --cask raycast
+```
+
+##### Config
+
+Run "Import Settings & Data" using the file from this repo:
+
+`exported/raycast/Raycast 2026-09-23 11.16.03.rayconfig`
+
+#### MonitorControl
+
+To control external monitor brightness & volume
+
+https://github.com/MonitorControl/MonitorControl
+
+##### Install (via brew)
+
+```bash
+brew install --cask monitorcontrol
+```
+
+##### Config
+
+Requires native keyboard access
+
+### Other apps
+
+[Development](docs/development)
+- [Typescript](docs/development/typescript)

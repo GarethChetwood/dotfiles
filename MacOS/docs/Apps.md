@@ -17,7 +17,6 @@
     - Jira
     - Lodash
 
-
 ### Menu bar & UI
 
 - MonitorControl
@@ -29,3 +28,9 @@
 - Neovim
 - Neovide
 - Neovim config
+
+### Misc
+
+- Kap
+  Screen recording & editing
+-
