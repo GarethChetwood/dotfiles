@@ -7,19 +7,19 @@ local function s(r, c) return survey(buf, r, c) end
 
 -- ── Semantic nodes ────────────────────────────────────────────────────────
 
-do -- Function: only rename remains now that jump actions are gone
+do -- Function: rename + prepend_append_statement
   local r = s(1, 0)
-  eq("function: available_actions", r.available_actions, { "rename" })
+  eq("function: available_actions", r.available_actions, { "rename", "prepend_append_statement" })
 end
 
-do -- Assignment: only rename
+do -- Assignment: rename + prepend_append_statement
   local r = s(3, 2)
-  eq("assignment: available_actions", r.available_actions, { "rename" })
+  eq("assignment: available_actions", r.available_actions, { "rename", "prepend_append_statement" })
 end
 
-do -- Conditional: no actions
+do -- Conditional: prepend_append_statement only
   local r = s(4, 2)
-  is_nil("conditional: available_actions", r.available_actions)
+  eq("conditional: available_actions", r.available_actions, { "prepend_append_statement" })
 end
 
 do -- ReturnStatement: no actions
@@ -31,14 +31,14 @@ end
 -- The surveyor anchors on the nearest recognised semantic node when the
 -- cursor lands on a transparent grouping, so these resolve outward.
 
-do -- Cursor on ParameterList → resolves to the enclosing Function
+do -- Cursor on ParameterList (2 params) → focuses ParameterList
   local r = s(1, 18)
-  eq("param_list resolves to function: available_actions", r.available_actions, { "rename" })
+  eq("param_list resolves to function: available_actions", r.available_actions, { "prepend_append_list" })
 end
 
-do -- Cursor on block (Body) → resolves to the enclosing Function
+do -- Cursor on block (Body, 2 statements) → focuses Body
   local r = s(4, 0)
-  eq("body resolves to function: available_actions", r.available_actions, { "rename" })
+  eq("body resolves to function: available_actions", r.available_actions, { "prepend_append_statement" })
 end
 
 -- ── Top-level node ────────────────────────────────────────────────────────
@@ -46,5 +46,5 @@ end
 do -- Function at top level: is_at_top is false (FileRoot is above it)
   local r = s(1, 0)
   eq("top-level function: is_at_top", r.navigation.is_at_top, false)
-  eq("top-level function: actions", r.available_actions, { "rename" })
+  eq("top-level function: actions", r.available_actions, { "rename", "prepend_append_statement" })
 end

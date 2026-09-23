@@ -565,7 +565,19 @@ impl NavigationInfo {
     ) -> Option<NavigationTarget> {
         ctx.all.iter().enumerate().skip(ctx.focus_idx + 1)
             .find(|(_, n)| predicate(&ctx.lang, &n.node_type))
-            .and_then(|(i, n)| as_navigation_target(RawNode::from(*n), &|raw| ctx.lang.classify(raw, ctx.parent_at(i))))
+            .map(|(i, n)| {
+                // Ancestry outlines don't carry child_count; force ≥ 2 so Guard B
+                // (translucent + ≤1 child → Unrecognised) does not fire for body containers.
+                let mut raw = RawNode::from(*n);
+                raw.child_count = raw.child_count.max(2);
+                NavigationTarget {
+                    node_type:      raw.kind.clone(),
+                    classification: ctx.lang.classify(raw, ctx.parent_at(i)).classification_name(),
+                    range:          n.range.clone(),
+                    key:            None,
+                    comment_range:  None,
+                }
+            })
     }
 
     /// Checks if the focus is at the top level.

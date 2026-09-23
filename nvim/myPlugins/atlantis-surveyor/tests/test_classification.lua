@@ -62,17 +62,17 @@ do -- Assignment: top-level local (row 9)
 end
 
 -- ── Transparent structural nodes ──────────────────────────────────────────
--- These nodes are transparent during ancestry traversal — the surveyor
--- passes through them and anchors on the nearest semantic ancestor.
+-- ParameterList with ≥2 params and Body with ≥2 statements are opaque (Recognised)
+-- and focus on themselves, not on the enclosing Function.
 
-do -- Cursor on ParameterList (row 1, col 18) → resolves to enclosing Function
+do -- Cursor on ParameterList (row 1, col 18) with 2 params → focuses ParameterList
   local r = s(1, 18)
-  eq("param_list resolves to function: node.node.type", r.node.node.type, "function")
+  eq("param_list resolves to function: node.node.type", r.node.node.type, "parameter_list")
 end
 
-do -- Cursor on Body/block (row 4, col 0) → resolves to enclosing Function
+do -- Cursor on Body/block (row 4, col 0) with 2 statements → focuses Body
   local r = s(4, 0)
-  eq("body resolves to function: node.node.type", r.node.node.type, "function")
+  eq("body resolves to function: node.node.type", r.node.node.type, "body")
 end
 
 do -- FileRoot/chunk (row 0) — resolves to the first top-level function

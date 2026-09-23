@@ -181,7 +181,9 @@ impl FocusedNode {
             }
         }
 
-        let mut outline = if matches!(node, AtlantisNode::Comment) {
+        let mut outline = if matches!(node, AtlantisNode::Comment)
+            || matches!(lang.node_kind_for(&node_snapshot.node_type), Some(NodeKind::ReturnStatement))
+        {
             vec![]
         } else {
             Self::compute_outline(lang, &node_snapshot.children)
@@ -228,8 +230,7 @@ impl FocusedNode {
         }
 
         if matches!(lang.node_kind_for(&node_snapshot.node_type), Some(NodeKind::Function)) {
-            Self::enrich_function_outline(lang, &mut outline, fetch);
-            Self::redirect_transparent_param_outline_item(lang, &mut outline, fetch);
+            Self::expand_function_body_outline(lang, &mut outline, fetch);
         }
 
         let is_comment = matches!(node, AtlantisNode::Comment);
@@ -263,98 +264,75 @@ impl FocusedNode {
         Ok(Some(focused))
     }
 
-    fn enrich_function_outline(
+    /// Replaces the function outline with its body statements.
+    /// Removes ParameterList and Body items, fetches the body's children,
+    /// and adds non-return statements directly. Return statement (if any) is
+    /// appended last with hint_key "r".
+    fn expand_function_body_outline(
         lang:    crate::probe::language::Language,
         outline: &mut Vec<OutlineItem>,
         fetch:   &mut Fetch<'_>,
     ) {
-        let (body_range, body_node_type) = match outline.iter()
+        let body_item = outline.iter()
             .find(|i| matches!(lang.node_kind_for(&i.node_type), Some(NodeKind::Body)))
-        {
-            Some(i) => (i.range.clone(), i.node_type.clone()),
-            None    => return,
-        };
+            .cloned();
+        let Some(body) = body_item else { return };
+
+        // Remove parameters and body wrapper — replaced by body's children below.
+        outline.retain(|i| !matches!(
+            lang.node_kind_for(&i.node_type),
+            Some(NodeKind::Body | NodeKind::ParameterList)
+        ));
 
         let Ok(body_snap) = fetch(
-            body_range.start_row, body_range.start_col,
-            Some(&body_node_type),
-            Some((body_range.start_row, body_range.start_col)),
-            Some((body_range.end_row,   body_range.end_col)),
+            body.range.start_row, body.range.start_col,
+            Some(body.node_type.as_str()),
+            Some((body.range.start_row, body.range.start_col)),
+            Some((body.range.end_row,   body.range.end_col)),
         ) else { return };
 
-        let Some(ret) = body_snap.children.iter()
+        let ret = body_snap.children.iter()
             .rev()
             .find(|c| matches!(lang.node_kind_for(&c.node_type), Some(NodeKind::ReturnStatement)))
-        else { return };
+            .cloned();
 
-        let last_non_return = body_snap.children.iter()
-            .rev()
-            .find(|c| !matches!(lang.node_kind_for(&c.node_type), Some(NodeKind::ReturnStatement)));
-
-        if let Some(idx) = outline.iter().position(|i| {
-            matches!(lang.node_kind_for(&i.node_type), Some(NodeKind::Body))
-        }) {
-            match last_non_return {
-                Some(last) => {
-                    outline[idx].range.end_row = last.range.end_row;
-                    outline[idx].range.end_col = last.range.end_col;
-                }
-                None => {
-                    outline[idx].range.end_row = ret.range.start_row;
-                    outline[idx].range.end_col = ret.range.start_col;
-                }
-            }
-        }
-
-        if outline.iter().any(|t| {
-            t.range.start_row == ret.range.start_row && t.range.start_col == ret.range.start_col
-        }) {
-            return;
-        }
-
-        let label = ret.text.lines()
-            .find(|l| !l.trim().is_empty())
-            .map(|s| { let s = s.trim(); if s.len() > 16 { s[..16].to_string() } else { s.to_string() } })
-            .unwrap_or_else(|| ret.node_type.clone());
-
-        outline.push(OutlineItem {
-            label,
-            node_type: ret.node_type.clone(),
-            category: outline::category_for(lang, &ret.node_type),
-            range: ret.range.clone(),
-            hint_key: Some("r"),
-        });
-        outline.sort_by(|a, b| a.range.start_row.cmp(&b.range.start_row).then(a.range.start_col.cmp(&b.range.start_col)));
-    }
-
-    /// Redirects any ParameterList outline item to its single inner child when the list
-    /// is transparent (exactly 1 child). hint_key ("p") is preserved.
-    fn redirect_transparent_param_outline_item(
-        lang:    crate::probe::language::Language,
-        outline: &mut [OutlineItem],
-        fetch:   &mut Fetch<'_>,
-    ) {
-        for item in outline.iter_mut() {
-            if !matches!(lang.node_kind_for(&item.node_type), Some(NodeKind::ParameterList)) {
-                continue;
-            }
-            let Ok(snap) = fetch(
-                item.range.start_row, item.range.start_col,
-                Some(&item.node_type),
-                Some((item.range.start_row, item.range.start_col)),
-                Some((item.range.end_row,   item.range.end_col)),
-            ) else { continue };
-
-            if snap.children.len() != 1 { continue; }
-
-            let inner = &snap.children[0];
-            item.node_type = inner.node_type.clone();
-            item.category  = outline::category_for(lang, &inner.node_type);
-            item.range     = inner.range.clone();
-            item.label     = inner.text.lines()
+        for child in body_snap.children.iter()
+            .filter(|c| !matches!(lang.node_kind_for(&c.node_type), Some(NodeKind::ReturnStatement)))
+        {
+            let label = child.text.lines()
                 .find(|l| !l.trim().is_empty())
                 .map(|s| { let s = s.trim(); if s.len() > 16 { s[..16].to_string() } else { s.to_string() } })
-                .unwrap_or_else(|| inner.node_type.clone());
+                .unwrap_or_else(|| child.node_type.clone());
+            outline.push(OutlineItem {
+                label,
+                node_type: child.node_type.clone(),
+                category:  outline::category_for(lang, &child.node_type),
+                range:     child.range.clone(),
+                hint_key:  None,
+            });
         }
+
+        if let Some(ret) = ret {
+            if !outline.iter().any(|t| {
+                t.range.start_row == ret.range.start_row && t.range.start_col == ret.range.start_col
+            }) {
+                let label = ret.text.lines()
+                    .find(|l| !l.trim().is_empty())
+                    .map(|s| { let s = s.trim(); if s.len() > 16 { s[..16].to_string() } else { s.to_string() } })
+                    .unwrap_or_else(|| ret.node_type.clone());
+                outline.push(OutlineItem {
+                    label,
+                    node_type: ret.node_type.clone(),
+                    category:  outline::category_for(lang, &ret.node_type),
+                    range:     ret.range.clone(),
+                    hint_key:  Some("r"),
+                });
+            }
+        }
+
+        outline.sort_by(|a, b| {
+            a.range.start_row.cmp(&b.range.start_row)
+                .then(a.range.start_col.cmp(&b.range.start_col))
+        });
     }
 }

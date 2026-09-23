@@ -76,6 +76,15 @@ local function extract(node_info)
   return icon, name, classification or "Node", range, raw_type
 end
 
+-- For list pickers: icon + full source label text (more context than short).
+function M.item_text(node_info)
+  local icon, _, classification = extract(node_info)
+  if node_info.category then
+    return icon .. " " .. (node_info.label or classification)
+  end
+  return M.short(node_info)
+end
+
 -- Compact form: "{icon} {name}"  (nav entries, namu items)
 function M.short(node_info)
   local icon, name, classification, range = extract(node_info)
