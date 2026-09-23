@@ -1,4 +1,3 @@
-
 # MacOS setup
 
 ## Setup
