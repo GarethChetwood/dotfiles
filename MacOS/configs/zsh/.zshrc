@@ -2,6 +2,6 @@
 if [[ -z "$ZSH_CONFIG_DIR" ]]; then
 echo "ERROR: ZSH_CONFIG_DIR is not set."
 echo "Ensure you have a `.zprofile` in \$HOME"
-echo "See .zprofile-example"
+echo "See .example.zprofile"
 return 1
 fi

@@ -25,7 +25,7 @@ ln -s "$CONFIGS_PATH/zsh/.zshrc" "$HOME/.zshrc"                         # This c
 ```
 
 ```bash
-cp $CONFIGS_PATH/zsh/.zprofile-example $HOME/.zprofile              # Creates your .zprofile - you must edit this next!
+cp $CONFIGS_PATH/zsh/.example.zprofile $HOME/.zprofile              # Creates your .zprofile - you must edit this next!
 ```
 
 ##### Configure your `.zprofile`
