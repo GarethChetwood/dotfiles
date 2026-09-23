@@ -1,0 +1,7 @@
+alias pnd="pnpm dev || pnpm develop"
+alias pnt="pnpm test"
+alias pni="pnpm install"
+alias pnid="pni && pnd"
+alias pnbs="pnpm build:local && pnpm start"
+alias pncl="pnpm clean"
+alias pncld="pncl && pnd"

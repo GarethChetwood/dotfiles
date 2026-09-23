@@ -65,6 +65,7 @@ local M = { {
   },
   {
     name = "atlantis-surveyor",
+    enabled = false,
     dir = vim.fs.joinpath(vim.fn.expand("X:/Development/dotfiles"), "nvim", "myPlugins", "atlantis-surveyor"),
     lazy = false,
     build = vim.fn.has("win32") == 1

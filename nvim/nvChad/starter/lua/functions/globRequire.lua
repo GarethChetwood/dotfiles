@@ -32,9 +32,9 @@ function M.glob_require(package, is_list)
     for _, path in pairs(vim.split(vim.fn.glob(glob_path), '\n')) do
         -- convert absolute filename to relative
         -- ~/.config/nvim/lua/<package>/<module>.lua => <package>/foo
-        local relfilename = path:gsub(_base_lua_path:gsub("%-", "%%-") .. "\\", ""):gsub("%.lua", "")
+        local relfilename = path:gsub(_base_lua_path:gsub("%-", "%%-") .. path_sep, ""):gsub("%.lua", "")
         local basename = vim.fs.basename(relfilename)
-        local module_name = relfilename:gsub("\\", ".")
+        local module_name = relfilename:gsub(path_sep, ".")
 
         -- skip `init` and files starting with underscore.
         if (basename ~= 'init' and basename:sub(1, 1) ~= '_') then
