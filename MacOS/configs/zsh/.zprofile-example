@@ -1,0 +1,29 @@
+# Common setup/config paths
+export WORKSPACE_PATH="$HOME/Documents/Workspace"
+export DOTFILES_PATH="$WORKSPACE_PATH/dotfiles"
+export DOTFILES_CONFIG_PATH="$DOTFILES_PATH/MacOS/configs"
+export ZSH_CONFIG_DIR="$DOTFILES_CONFIG_PATH/zsh"
+
+# Ensures homebrew installs to your user applications dir (or your preferred location)
+export HOMEBREW_CASK_OPTS="--appdir=$HOME/Applications"
+
+# Credentials
+export GH_TOKEN="XXX_XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX"
+export NPM_TOKEN="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+
+# Modules (comment out what you don't want)
+modules=(
+".path.sh"          # Helper function for appending to $PATH; and common $PATH entries
+".aliases.sh"       # Common aliases (Source, Directories, Sounds, "vi -> "nvim"...)
+".git.sh"           # Shorter git commands; default editor set to nvim
+# ".typescript.sh"    # Configuring typescript dev tools + Lodash terminal emulation
+# ".p10k.zsh"         # Powerlevel10k - highly customisable terminal prompt - config
+# ".p10kinit.sh"      # Powerlevel10k initialisation
+)
+
+for module in "${modules[@]}"; do
+source "$ZSH_CONFIG_DIR/modules/$module"
+done
+
+# Source any further modules here, e.g.
+# source "$HOME/configs/zsh/module.sh"

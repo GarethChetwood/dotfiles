@@ -9,21 +9,35 @@
 mkdir ~/Documents/Workspace && cd ~/Documents/Workspace/ && git clone https://github.com/Gazareth/dotfiles.git;
 ```
 
-Once we have all config files locally, we can start setting up sym links to them. This makes the repo the single source of truth.
+### Zsh config
 
-### zsh config
-
-```bash
-CONFIGS_PATH="$HOME/Documents/Workspace/dotfiles/MacOS/configs" # Edit this to match your setup
-ln -s "$CONFIGS_PATH/.zshrc" "$HOME/.zshrc"
-ln -s "$CONFIGS_PATH/.zsh" "$HOME/.zsh"
-```
-
-Verify
+#### `.zshrc` and `.zprofile`
 
 ```bash
-ls -la ~ | grep zsh
+CONFIGS_PATH="$HOME/Documents/Workspace/dotfiles/MacOS/configs"     # Edit this to match your setup
+ln -s "$CONFIGS_PATH/.zshrc" "$HOME/.zshrc"                         # This creates a symbolic link so that .zshrc remains source-controlled
+cp $CONFIGS_PATH/zsh/.zprofile-example $HOME/.zprofile              # Creates your .zprofile - you must edit this next!
 ```
+
+#### Configure your `.zprofile`
+
+Fill in the values for:
+
+- ZSH_CONFIG_DIR
+- HOMEBREW_CASK_OPTS
+- GH_TOKEN
+- NPM_TOKEN
+
+And also comment/uncomment any **modules** you want to use.
+
+> [!TIP]
+> You can verify this has worked by running `ls -la ~ | grep -E '\.zshrc|\.zprofile'`
+>
+> (Idenfity symlinks with the "l" prefix)
+
+Restart your terminal. This will source all the new files, and hopefully complete your **zsh** setup
+
+
 
 ### Brew
 
