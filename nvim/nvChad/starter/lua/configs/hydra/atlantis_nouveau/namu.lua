@@ -10,7 +10,7 @@ function M.open(result)
   local bufnr = result.bufnr
   local items = {}
   for _, item in ipairs(result.outline or {}) do
-    items[#items + 1] = { text = badge.short(item), value = item }
+    items[#items + 1] = { text = badge.item_text(item), value = item }
   end
 
   if #items == 0 then

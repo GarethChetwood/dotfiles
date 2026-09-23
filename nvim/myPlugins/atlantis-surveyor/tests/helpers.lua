@@ -89,11 +89,12 @@ end
 local function node_data(bufnr, n)
   local sr, sc, er, ec = n:range()
   local data = {
-    node_type = n:type(),
-    start_row = sr, start_col = sc,
-    end_row   = er, end_col   = ec,
-    fields    = {},
-    children  = {},
+    node_type   = n:type(),
+    start_row   = sr, start_col = sc,
+    end_row     = er, end_col   = ec,
+    child_count = n:named_child_count(),
+    fields      = {},
+    children    = {},
   }
   for child, fname in n:iter_children() do
     if child:named() then

@@ -49,14 +49,15 @@ do
   end
 end
 
--- ── Transparent node resolves to semantic parent ──────────────────────────
--- Surveying inside a ParameterList or Body climbs to the enclosing function.
-do -- col 18 is the `(` of `add(x, y)` — ParameterList is transparent
+-- ── Opaque structural nodes with ≥2 children ─────────────────────────────
+-- ParameterList with 2+ params and Body with 2+ statements are Recognised
+-- nodes that focus on themselves rather than climbing to the enclosing function.
+do -- col 18 is the `(` of `add(x, y)` — 2 params → ParameterList is opaque
   local r = s(1, 18)
-  eq("param_list transparent: resolves to function", r.node.node.type, "function")
+  eq("param_list transparent: resolves to function", r.node.node.type, "parameter_list")
 end
 
-do -- col 0 row 4 is the `block` node before the `if` keyword — Body is transparent
+do -- col 0 row 4 is the `block` node — 2 statements → Body is opaque
   local r = s(4, 0)
-  eq("body transparent: resolves to function", r.node.node.type, "function")
+  eq("body transparent: resolves to function", r.node.node.type, "body")
 end

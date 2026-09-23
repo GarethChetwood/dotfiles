@@ -9,30 +9,29 @@ local function s(r, c) return survey(buf, r, c) end
 -- Surveying the function_declaration directly produces an outline of its
 -- recognised body children.
 
-do -- `add` function at row 1: body contains assignment + conditional
+do -- `add` function at row 1: outline shows body statements (not parameters/block wrapper)
   local r = s(1, 0)
   eq("function: outline length", #r.outline, 2)
-  -- first child: variable_declaration on row 3
+  -- first body child: variable_declaration on row 3
   is_not_nil("function: outline[1]",               r.outline[1])
   eq("function: outline[1].node_type",             r.outline[1].node_type, "variable_declaration")
   eq("function: outline[1].range.start_row",       r.outline[1].range.start_row, 3)
   -- label is the trimmed first line, max 16 chars
   -- "local sum = x + y" (17 chars) → "local sum = x + "
   eq("function: outline[1].label",                 r.outline[1].label, "local sum = x + ")
-  -- second child: if_statement on row 4
+  -- second body child: if_statement on row 4
   is_not_nil("function: outline[2]",               r.outline[2])
   eq("function: outline[2].node_type",             r.outline[2].node_type, "if_statement")
   eq("function: outline[2].range.start_row",       r.outline[2].range.start_row, 4)
   eq("function: outline[2].label",                 r.outline[2].label, "if sum > 0 then")
 end
 
--- ── ParameterList children ────────────────────────────────────────────────
--- Surveying a ParameterList (transparent) resolves to the enclosing Function,
--- whose outline contains the parameters as a sub-section.
+-- ── ParameterList ─────────────────────────────────────────────────────────
+-- Parameters are exposed via the function's state.parameters NavigationTarget,
+-- not as outline items (the function outline shows body statements only).
 
-do -- `add(x, y)`: parameters should appear in the function's outline or navigation
+do -- `add(x, y)`: parameters accessible via state, not outline
   local r = s(1, 0)
-  -- The function's state exposes the parameters NavigationTarget directly
   is_not_nil("param_list: state.parameters", r.node.node.state.parameters)
   eq("param_list: state.parameters.node_type", r.node.node.state.parameters.node_type, "parameters")
 end
@@ -50,15 +49,16 @@ do
 end
 
 -- ── ReturnStatement has an empty outline ──────────────────────────────────
+-- ReturnStatement never exposes its expression children as outline items.
 
 do
-  local r = survey(buf, 14, 4)  -- return_statement
+  local r = survey(buf, 14, 4)  -- return_statement inside greet
   eq("return: outline is empty", #(r.outline or {}), 0)
 end
 
--- ── `greet` body: single-child body outline ───────────────────────────────
--- `greet` has only one statement in its body (the return).
--- Surveying the function produces an outline with exactly 1 item.
+-- ── `greet` body: single return statement ─────────────────────────────────
+-- `greet` body contains only a return statement.
+-- The function outline shows that return as the sole item (with hint_key "r").
 
 do
   local r = s(13, 0)  -- greet function_declaration
