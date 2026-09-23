@@ -1,10 +1,10 @@
 local g = vim.g
 
 local make_font_cfg = function(font_size)
-  return { "Hack Nerd Font Mono,Symbols Nerd Font:h"..font_size..":#e-subpixelantialias:#h-none" }
+  return { "Hack Nerd Font Mono,Symbols Nerd Font (Symbols Only):h"..font_size..":#e-subpixelantialias:#h-none" }
 end
 -- vim.opt.guicursor = ""
-g.neovide_font_size = 10
+g.neovide_font_size = 16
 vim.opt.guifont = make_font_cfg(g.neovide_font_size)
 g.neovide_line_scale_delta = 0.5
 
@@ -52,4 +52,3 @@ vim.keymap.set("n", "<F11>", function()
   end
 end
 )
-

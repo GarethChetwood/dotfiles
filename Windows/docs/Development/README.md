@@ -16,6 +16,8 @@ Install via scoop, then configure.
 
 ### Configure profile
 
+Use [NVIM_APPNAME (Docs)](https://neovim.io/doc/user/starting/#%24NVIM_APPNAME) to run neovim with different 'profiles'
+
 Set env var `NVIM_APPNAME` to whatever you want your profile to be called.
 
 e.g. `NVIM_APPNAME=nvim-configs\default`
