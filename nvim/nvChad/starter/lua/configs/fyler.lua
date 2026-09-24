@@ -1,17 +1,24 @@
-local fyler = require("fyler")
+function open_fyler () 
+  return require("fyler").open()
+end
 
 local M = {
   opts = {
+    kind = "floating",
     follow_current_file = true,
-    mappings = {
-      ["<C-b>"] = "CloseView",
-    },
     integrations = {
-      icon = "nvim_web_devicons",
+      icon = 'nvim_web_devicons'
+    },
+    mappings = {
+      n = {
+        ['<C-b>'] = {
+          action = 'close',
+        },
+      },
     },
   },
   keys = {
-    { "<C-b>", fyler.open(), desc = "Open Fyler View" },
+    { "<C-b>", open_fyler, desc = "Open Fyler View" },
   },
 }
 
