@@ -14,7 +14,7 @@ brew install hammerspoon --cask
 ### Config
 
 ```bash
-ln -s "$DOTFILES_CONFIG_PATH/.config/.hammerspoon" "$HOME/.hammerspoon"
+ln -s "$DOTFILES_CONFIG_PATH/.hammerspoon" "$HOME/.hammerspoon"
 ```
 
 ### Raycast
@@ -55,4 +55,12 @@ Customise which browser opens a link based on preconfigured rules
 
 ```bash
 brew install --cask finicky
+```
+
+### Config
+
+Symbolically link from home to this repo
+
+```bash
+ln -s "$DOTFILES_CONFIG_PATH/.finicky.js" "$HOME/.finicky.js"
 ```
