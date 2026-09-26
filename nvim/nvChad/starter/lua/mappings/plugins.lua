@@ -42,7 +42,7 @@ M.leap_ast = {
 
 M.lspconfig = {
   n = {
-    ["<leader>fmt"] = {
+    ["<C-D-\\>"] = {
       function()
         vim.lsp.buf.format { async = true }
       end,
