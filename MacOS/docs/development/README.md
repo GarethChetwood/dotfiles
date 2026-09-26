@@ -56,6 +56,14 @@ Ripgrep is required for [grug-far](https://github.com/MagicDuck/grug-far.nvim)
 brew install ripgrep
 ```
 
+##### Treesitter
+
+`tree-sitter` is required for granular syntax highlighting
+
+```bash
+brew install tree-sitter
+```
+
 ### Neovide
 
 Rust-based graphical renderer for Neovim
