@@ -14,7 +14,7 @@ M.focus = {
 
 M.grug_far = {
   n = {
-    ["<leader>gf"] = { "<cmd> GrugFar <CR>", "GrugFar: Find and Replace" },
+    ["<C-S-F>"] = { "<cmd> GrugFar <CR>", "GrugFar: Find and Replace" },
   },
 }
 
