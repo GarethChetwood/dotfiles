@@ -18,6 +18,12 @@ M.grug_far = {
   },
 }
 
+M.flash = {
+  n = {
+    ["<leader>flt"] = { function() require("flash").treesitter() end, "Flash: Treesitter" },
+  },
+}
+
 M.leap = {
   [{ "n", "x", "o" }] = {
     ["-"] = { "<Plug>(leap-forward-to)", "Leap: forward-to" },
