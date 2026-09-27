@@ -43,6 +43,8 @@ M.general = {
         end, "Print current treesitter node"}
     },
     n = {
+        ["<Esc>"] = {"<cmd>noh<CR><Esc>", "Clear highlights and escape"},
+
         -- Meta stuff
         ["<leader>lzs"] = {"<cmd> Lazy sync <CR>", "Sync plugins"},
         ["<leader>cd"] = {"<cmd> :cd %:p:h <CR>", "Set directory to current file's"},
