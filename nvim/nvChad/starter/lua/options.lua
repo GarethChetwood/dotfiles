@@ -11,6 +11,8 @@ local options  = {
   smarttab = true,
 
   showcmd = true,
+  cmdheight = 0,
+  showtabline = 2,
   autowrite = true,
   autoread = true,
 
