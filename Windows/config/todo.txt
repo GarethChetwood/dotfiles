@@ -1,0 +1,8 @@
+Komorebi Config TODO
+====================
+
+- [ ] Revisit Battle.net.exe floating rule matching_strategy.
+      Currently using "Equals" explicitly, but this is the default.
+      The float rule wasn't taking effect until Battle.net was reopened
+      after the config reload — it may have worked without the
+      matching_strategy change. Experiment with removing it to confirm.

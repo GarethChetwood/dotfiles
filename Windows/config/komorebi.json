@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.39/schema.json",
+  "$schema": "https://raw.githubusercontent.com/LGUG2Z/komorebi/v0.1.40/schema.json",
   "app_specific_configuration_path": "$Env:USERPROFILE/applications.json",
   "window_hiding_behaviour": "Cloak",
   "mouse_follows_focus": true,
@@ -98,6 +98,14 @@
             {
               "kind": "Exe",
               "id": "chrome.exe"
+            },
+            {
+              "kind": "Exe",
+              "id": "Battle.net.exe"
+            },
+            {
+              "kind": "Exe",
+              "id": "CurseForge.exe"
             }
           ]
         },
@@ -201,6 +209,31 @@
     {
       "kind": "Exe",
       "id": "Updater.exe"
+    },
+    {
+      "kind": "Exe",
+      "id": "Wow.exe"
+    },
+    {
+      "kind": "Exe",
+      "id": "WowClassic.exe"
+    },
+    {
+      "kind": "Exe",
+      "id": "Battle.net.exe",
+      "matching_strategy": "Equals"
+    },
+    {
+      "kind": "Exe",
+      "id": "CurseForge.exe",
+      "matching_strategy": "Equals"
+    }
+  ],
+  "ignore_rules": [
+    {
+      "kind": "Title",
+      "id": "Picture in picture",
+      "matching_strategy": "Equals"
     }
   ]
 }
