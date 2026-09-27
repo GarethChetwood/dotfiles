@@ -1,21 +1,24 @@
 require("nvchad.configs.lspconfig").defaults()
 
 local servers = {
-"html",
-"cssls",
-"emmylua_ls",
-"ts_ls",
-"eslint",
+  "html",
+  "cssls",
+  "vtsls",
+  "eslint",
 }
 
-vim.lsp.config("emmylua_ls", {
+vim.lsp.config("lua_ls", {
   settings = {
     Lua = {
       diagnostics = {
-        globals = { "vim" } }
-    }
-  }
+        globals = { "vim" },
+      },
+      workspace = {
+        checkThirdParty = false,
+      },
+    },
+  },
 })
 
-vim.lsp.enable("lua_ls", false) -- disable lua_ls since we are using emmylua_ls instead
 vim.lsp.enable(servers)
+
