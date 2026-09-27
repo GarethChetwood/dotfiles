@@ -1,5 +1,12 @@
-function open_fyler(args)
-  return function() require("fyler").open(args or {}) end
+local function open_fyler(args)
+  return function()
+    local current_file = vim.api.nvim_buf_get_name(0)
+    if current_file ~= "" then
+      vim.fn.setreg("#", current_file)
+    end
+
+    require("fyler").open(args or {})
+  end
 end
 
 local M = {

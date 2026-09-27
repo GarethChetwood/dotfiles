@@ -44,10 +44,33 @@ local M = {
 
   {
     "beauwilliams/focus.nvim", -- Dynamically resize splits to focus on current one
-    -- enabled = false,
     version = false,
     lazy = false,
-    config = true
+    config = function()
+      require("focus").setup({
+        autoresize = {
+          enable = true,
+        },
+      })
+
+      -- Replace eager 'Resize splits' WinEnter autocmd with a deferred version
+      -- so buffers have time to initialize filetype and b:focus_disable before Focus measures them
+      for _, ac in ipairs(vim.api.nvim_get_autocmds({ group = "Focus", event = "WinEnter" })) do
+        if ac.desc == "Resize splits" then
+          vim.api.nvim_del_autocmd(ac.id)
+        end
+      end
+
+      vim.api.nvim_create_autocmd("WinEnter", {
+        group = "Focus",
+        callback = function()
+          vim.schedule(function()
+            require("focus").resize()
+          end)
+        end,
+        desc = "Deferred focus.nvim resize allowing filetype resolution",
+      })
+    end,
   },
 
   {
