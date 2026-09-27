@@ -7,8 +7,22 @@ local M = {
     lazy = false,
     priority = 1000,
     config = function()
-      require("monokai-pro").setup()
-      -- Don't call vim.cmd.colorscheme() - let NvChad handle it
+      require("monokai-pro").setup({
+        filter = "ristretto",
+      })
+      vim.schedule(function()
+        -- Load monokai-pro highlights directly over NvChad's defaults
+        require("monokai-pro.theme").load()
+
+        -- Force specific overrides bypassing the cache completely
+        local p = require("monokai-pro.palette").load("ristretto")
+        vim.api.nvim_set_hl(0, "@type.enum", { fg = p.text })
+        vim.api.nvim_set_hl(0, "@property.enum", { fg = p.accent6 })
+        vim.api.nvim_set_hl(0, "@constant.enum", { fg = p.accent6 })
+        vim.api.nvim_set_hl(0, "@variable.member.enum", { fg = p.accent6 })
+        vim.api.nvim_set_hl(0, "@variable.import", { fg = p.text })
+        vim.api.nvim_set_hl(0, "@module", { fg = p.text })
+      end)
     end,
   },
   {
@@ -30,6 +44,7 @@ local M = {
 
   {
     "beauwilliams/focus.nvim", -- Dynamically resize splits to focus on current one
+    -- enabled = false,
     version = false,
     lazy = false,
     config = true

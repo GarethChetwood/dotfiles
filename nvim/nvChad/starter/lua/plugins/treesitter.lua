@@ -8,7 +8,7 @@ local M = {{
     config = function()
         local configs = require("nvim-treesitter")
         configs.setup({
-            ensure_installed = {"c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html"},
+            ensure_installed = {"c", "lua", "vim", "vimdoc", "query", "elixir", "heex", "javascript", "html", "css", "typescript", "tsx", "markdown", "markdown_inline"},
             sync_install = false,
             highlight = {
                 enable = true
