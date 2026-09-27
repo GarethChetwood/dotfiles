@@ -120,6 +120,10 @@
             {
               "kind": "Exe",
               "id": "neovide.exe"
+            },
+            {
+              "kind": "Exe",
+              "id": "Antigravity.exe"
             }
           ]
         },
