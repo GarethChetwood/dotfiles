@@ -16,7 +16,7 @@ M.blankline = {
 M.mason = {
     ensure_installed = { -- lua stuff
     "lua-language-server", "stylua",
-    "css-lsp", "html-lsp", "vtsls", "eslint-lsp", "deno", "prettier", -- c/cpp stuff
+    "css-lsp", "html-lsp", "typescript-language-server", "vtsls", "eslint-lsp", "deno", "prettier", -- c/cpp stuff
     "clangd", "clang-format"}
 }
 

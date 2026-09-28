@@ -26,4 +26,19 @@ M.ui = {
   }
 }
 
+M.mason = {
+  pkgs = {
+    "lua-language-server",
+    "stylua",
+    "css-lsp",
+    "html-lsp",
+    "typescript-language-server",
+    "eslint-lsp",
+    "deno",
+    "prettier",
+    "clangd",
+    "clang-format",
+  },
+}
+
 return M

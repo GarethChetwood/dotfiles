@@ -3,7 +3,8 @@ require("nvchad.configs.lspconfig").defaults()
 local servers = {
   "html",
   "cssls",
-  "vtsls",
+  "ts_ls",
+  "lua_ls",
   "eslint",
 }
 
