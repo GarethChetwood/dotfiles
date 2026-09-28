@@ -1,22 +1,6 @@
--- To find any highlight groups: "<cmd> Telescope highlights"
--- Each highlight group can take a table with variables fg, bg, bold, italic, etc
--- base30 variable names can also be used as colors
-
 local M = {}
 
 M.override = {
-  CursorLine = {
-    bg = "black2",
-  },
-  Comment = {
-    italic = true,
-    fg = "grey_fg"
-  },
-  ["@comment"] = {
-    italic = true,
-    fg = "grey_fg"
-  },
-
   St_NormalMode = {
     bg = "white",
   },
@@ -81,30 +65,15 @@ M.override = {
     fg = "dark_purple",
   },
 
-  St_EmptySpace = {
-  },
+  St_EmptySpace = {},
 
   St_file_sep = {
     fg = "lightbg",
     bg = "one_bg",
-  }
+  },
 }
 
-local searchHighlight = function(isCurrent)
-  local fg_col = "black"
-  local bg_col = "purple"
-  local isBold  = false
-  if isCurrent then
-    -- fg_col = "#ffffff"
-    bg_col = "dark_purple"
-    isBold = true
-  end
-  return { fg = fg_col, bg = bg_col, bold = isBold }
-end
-
 M.add = {
-  -- NvimTreeOpenedFolderName = { fg = "blue", bold = true },
-  -- NvimTreeOpenedFile = { fg = "teal", bold = true, italic = true },
   St_file_modified = {
     bg = "lightbg",
     fg = "white",
@@ -139,20 +108,6 @@ M.add = {
     fg = "lighter_grey",
     bg = "lightbg",
   },
-  CurSearch = searchHighlight(true),
-  IncSearch = searchHighlight(true),
-  Search = searchHighlight(false),
-  Substitute = { fg = "black", bg = "sun", bold = true },
-  YankHighlight = { fg = "#dddddd", bg = "one_bg3" },
-  VisualMultiCursor = { fg = "grey_fg2", bg = "dark_purple" },
-  InsertModeCursor = { fg = "black", bg = "sun" },
-  VisualModeCursor = { fg = "black", bg = "dark_purple" },
-  IndentBlanklineIndent1 = { fg  = "#E06C75" },
-  IndentBlanklineIndent2 = { fg  = "#E5C07B" },
-  IndentBlanklineIndent3 = { fg  = "#98C379" },
-  IndentBlanklineIndent4 = { fg  = "#56B6C2" },
-  IndentBlanklineIndent5 = { fg  = "#61AFEF" },
-  IndentBlanklineIndent6 = { fg  = "#C678DD" },
 }
 
 return M
