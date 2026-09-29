@@ -46,4 +46,37 @@ function M.get_relative_path(bufpath)
   return rel ~= "" and rel or vim.fs.basename(norm_path)
 end
 
+-- Files whose name alone says little, so their folder is shown as part of the name
+local generic_stems = { init = true, index = true, __init__ = true, mod = true }
+
+-- "a/b/c/file.lua" -> "file.lua", "a/b/c"; "a/b/c/init.lua" -> "c/init.lua", "a/b"
+-- dir is "" when there's nothing left to show
+function M.split_display(path)
+  local dir, file = path:match("^(.*)/([^/]+)$")
+  if not dir then return path, "" end
+
+  local stem = file:match("^(.-)%.") or file
+  if generic_stems[stem] then
+    local parent_dir, parent = dir:match("^(.*)/([^/]+)$")
+    file = (parent or dir) .. "/" .. file
+    dir = parent_dir or ""
+  end
+
+  return file, dir
+end
+
+-- "a/b/c/file.lua" -> "file.lua [a/b/c]", "a/b/c/init.lua" -> "c/init.lua [a/b]"
+function M.format_display(path)
+  local file, dir = M.split_display(path)
+  return dir ~= "" and string.format("%s [%s]", file, dir) or file
+end
+
+-- Path to show for a buffer: relative to the project, or absolute if it's outside it
+function M.display_path(bufname)
+  if M.is_external_repo(bufname) then
+    return vim.fs.normalize(bufname), true
+  end
+  return M.get_relative_path(bufname), false
+end
+
 return M

@@ -95,6 +95,12 @@ local M = { {
     end,
   },
   {
+    "b0o/incline.nvim", -- Floating file name label per window
+    event = "VeryLazy",
+    dependencies = "nvim-tree/nvim-web-devicons",
+    opts = require("configs.incline").opts,
+  },
+  {
     "folke/noice.nvim",
     event = "VeryLazy",
     dependencies = {

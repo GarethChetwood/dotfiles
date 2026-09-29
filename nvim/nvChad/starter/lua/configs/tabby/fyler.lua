@@ -1,4 +1,4 @@
-local path_utils = require("configs.tabby.path")
+local path_utils = require("functions.path")
 
 local M = {}
 
@@ -22,8 +22,8 @@ function M.get_display_name(tab)
   local cwd_name = vim.fs.basename(cwd) or cwd
 
   if editor_bufname ~= "" then
-    local rel_path = path_utils.get_relative_path(editor_bufname)
-    return string.format("[Fyler] %s (%s)", rel_path, cwd_name)
+    local display = path_utils.format_display(path_utils.get_relative_path(editor_bufname))
+    return string.format("[Fyler] %s (%s)", display, cwd_name)
   else
     return string.format("[Fyler] (%s)", cwd_name)
   end

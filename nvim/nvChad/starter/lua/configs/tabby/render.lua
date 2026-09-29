@@ -1,9 +1,10 @@
 local theme = require("configs.tabby.theme")
-local path_utils = require("configs.tabby.path")
+local path_utils = require("functions.path")
 local fyler = require("configs.tabby.fyler")
 
 local M = {}
 
+-- Shows the tab's active window; incline labels the individual windows
 function M.render_tab(line, tab)
   local win = tab.current_win()
   local buf = win and win.buf()
@@ -25,24 +26,18 @@ function M.render_tab(line, tab)
     hl = tab.is_current() and theme.current or theme.tab
   end
 
-  local display_name = ""
-  local icon_node = ""
+  local display_name
+  local icon_node = win.file_icon()
 
   if is_fyler then
     display_name = fyler.get_display_name(tab)
-    icon_node = ""
+    icon_node = ""
   elseif buftype == "nofile" or filetype == "alpha" then
     display_name = filetype ~= "" and filetype or "[No Name]"
-    icon_node = win.file_icon()
   elseif bufname == "" then
     display_name = "[No Name]"
-    icon_node = win.file_icon()
-  elseif is_ext then
-    display_name = vim.fs.normalize(bufname)
-    icon_node = win.file_icon()
   else
-    display_name = path_utils.get_relative_path(bufname)
-    icon_node = win.file_icon()
+    display_name = path_utils.format_display((path_utils.display_path(bufname)))
   end
 
   return {
