@@ -19,14 +19,17 @@ M.grug_far = {
 }
 
 M.flash = {
-  [{ "n", "x", "o" }] = {
-    ["<leader>j"] = {
+  -- Not in visual mode: better_escape uses jk there to escape
+  [{ "n", "o" }] = {
+    ["jk"] = {
       function()
         require("flash").jump({ search = { max_length = 2 } })
       end,
       "Flash: 2-character Jump",
     },
-    ["<leader>k"] = {
+  },
+  [{ "n", "x", "o" }] = {
+    ["kj"] = {
       function()
         require("flash").treesitter()
       end,
