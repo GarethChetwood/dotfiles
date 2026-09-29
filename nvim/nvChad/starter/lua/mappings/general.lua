@@ -1,5 +1,4 @@
 local current_file_dir = require("functions.mappings").current_file_dir
-local switch_window = require("functions.mappings").switch_window
 local explore_current_file_dir = require("functions.mappings").explore_current_file_dir
 local return_to_dashboard = require("functions.mappings").return_to_dashboard
 local flick_command = require("functions.scroll-flick").flick_command
@@ -59,12 +58,7 @@ M.general = {
         ["ZA"] = {"<cmd> wa | qa <CR>", "Save all files then quit vim"},
         ["Zs"] = {"<cmd>so %<CR>", "Source current file"},
 
-        -- Tab/window switching
-        ["<C-w><C-v>"] = {"<cmd> vert sb # <CR>", "Open a vertical split of current and previous buffer"},
-        ["<C-w><C-t>"] = {"<cmd> tabc <CR>", "Close tab"},
-        ["<C-t>"] = {"<cmd> tabnew | Alpha <CR>", "Open new tab and run Alpha (dashboard)"},
-        ["<Tab>"] = {"<cmd> wincmd w <CR>", "Switch to next window"},
-        ["<S-Tab>"] = {"<cmd> wincmd W <CR>", "Switch to previous window"},
+        -- Tab/window switching: see mappings/overrides.lua
 
         -- Scrolling
         ["<C-S-g>"] = {flick_command("2.15"), "Jump ↑ by ½ screen"},
@@ -73,7 +67,6 @@ M.general = {
         ["<C-S-k>"] = {flick_command("-0.75"), "Jump ↓ by ¼ screen"},
 
         -- Help with editing/writing text
-        ["Y"] = {"^vg_", "select line (excluding EOL character)"},
         ["<leader><enter>"] = {":call feedkeys('] [ i')<cr>", "Insert mode with new line above and below."},
 
         ["]d"] = {function()

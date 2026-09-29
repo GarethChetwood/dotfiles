@@ -1,13 +1,27 @@
 local M = {}
 
+-- Windows that normal window switching skips over (use their dedicated keys to focus them)
+M.locked_filetypes = {
+  NvimTree = true,
+  fyler_finder = true,
+}
+
 -- Dashboard/Settings shortcuts
 M.switch_window = function(command)
   return function()
-    vim.cmd("wincmd " .. command)
-    local newFileType = vim.bo.filetype
-    if newFileType == "NvimTree" then
+    local start_win = vim.api.nvim_get_current_win()
+    for _ = 1, vim.fn.winnr("$") do
       vim.cmd("wincmd " .. command)
+      local win = vim.api.nvim_get_current_win()
+      if not M.locked_filetypes[vim.bo.filetype] then
+        return
+      end
+      if win == start_win then
+        break
+      end
     end
+    -- Only locked windows in that direction: stay put
+    vim.api.nvim_set_current_win(start_win)
   end
 end
 
