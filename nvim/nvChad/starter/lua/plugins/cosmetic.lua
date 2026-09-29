@@ -50,6 +50,7 @@ local M = {
       require("focus").setup({
         autoresize = {
           enable = true,
+          minwidth = 20, -- keep unfocused windows visible, rather than squashing a neighbour to 1 column
         },
       })
 
