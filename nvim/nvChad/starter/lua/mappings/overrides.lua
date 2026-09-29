@@ -2,6 +2,11 @@ local switch_window = require("functions.mappings").switch_window
 
 -- Mappings that deliberately replace built-in Vim/Neovim behaviour.
 -- The comment on each group says what default is being given up.
+--
+-- Also overridden elsewhere:
+-- - j / k (normal mode) are taken over by better_escape (plugins/core.lua) to
+--   provide the jk (flash jump) and kj (flash treesitter) chords without delaying
+--   plain j / k.
 local M = {}
 
 M.overrides = {

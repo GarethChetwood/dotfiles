@@ -18,24 +18,8 @@ M.grug_far = {
   },
 }
 
+-- jk / kj (flash jump / treesitter) are better_escape chords in plugins/core.lua
 M.flash = {
-  -- Not in visual mode: better_escape uses jk there to escape
-  [{ "n", "o" }] = {
-    ["jk"] = {
-      function()
-        require("flash").jump({ search = { max_length = 2 } })
-      end,
-      "Flash: 2-character Jump",
-    },
-  },
-  [{ "n", "x", "o" }] = {
-    ["kj"] = {
-      function()
-        require("flash").treesitter()
-      end,
-      "Flash: Treesitter AST Nodes",
-    },
-  },
   n = {
     ["<leader>flt"] = { function() require("flash").treesitter() end, "Flash: Treesitter" },
     ["ga"] = {

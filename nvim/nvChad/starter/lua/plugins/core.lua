@@ -7,9 +7,20 @@ local M = {
   {
     "max397574/better-escape.nvim", -- Avoid delays before resolving hotkey chains
     config = function()
-      require("better_escape").setup()
+      require("better_escape").setup({
+        timeout = 200,
+        mappings = {
+          -- Normal-mode chords, overriding j/k (see mappings/overrides.lua).
+          -- The first key has already moved the cursor, so each chord starts
+          -- by reversing it before running the action.
+          n = {
+            j = { k = "k<Cmd>lua require('flash').jump({ search = { max_length = 2 } })<CR>" },
+            k = { j = "j<Cmd>lua require('flash').treesitter()<CR>" },
+          },
+        },
+      })
     end,
-    event = "InsertEnter",
+    event = "VeryLazy", -- not InsertEnter: the normal-mode chords must exist from the start
   },
 
   {
