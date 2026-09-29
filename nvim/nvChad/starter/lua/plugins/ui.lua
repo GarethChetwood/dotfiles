@@ -21,9 +21,7 @@ local M = { {
     "folke/flash.nvim",
     event = "VeryLazy",
     config = function()
-      require("flash").setup({
-        highlight = { backdrop = false },
-      })
+      require("configs.flash").setup()
     end,
   },
   {

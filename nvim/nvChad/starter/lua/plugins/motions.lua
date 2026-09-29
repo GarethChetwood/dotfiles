@@ -40,10 +40,12 @@ local M = {
 
   {
     "Wansmer/treesj",
-    keys = { '<space>m', '<space>j', '<space>s' },
+    keys = { '<space>m', '<space>s' },
     dependencies = { 'nvim-treesitter/nvim-treesitter' }, -- if you install parsers with `nvim-treesitter`
     config = function()
-      require('treesj').setup({--[[ your config ]]})
+      require('treesj').setup({ use_default_keymaps = false })
+      vim.keymap.set('n', '<space>m', require('treesj').toggle, { desc = "TreeSJ Toggle" })
+      vim.keymap.set('n', '<space>s', require('treesj').split, { desc = "TreeSJ Split" })
     end,
   },
 

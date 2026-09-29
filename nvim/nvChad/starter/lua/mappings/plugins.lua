@@ -19,8 +19,48 @@ M.grug_far = {
 }
 
 M.flash = {
+  [{ "n", "x", "o" }] = {
+    ["<leader>j"] = {
+      function()
+        require("flash").jump({ search = { max_length = 2 } })
+      end,
+      "Flash: 2-character Jump",
+    },
+    ["<leader>k"] = {
+      function()
+        require("flash").treesitter()
+      end,
+      "Flash: Treesitter AST Nodes",
+    },
+  },
   n = {
     ["<leader>flt"] = { function() require("flash").treesitter() end, "Flash: Treesitter" },
+    ["ga"] = {
+      function()
+        require("configs.flash.assimilate").assimilate_treesitter()
+      end,
+      "Assimilate: Pull remote TS node into motion",
+    },
+    ["gp"] = {
+      function()
+        require("configs.flash.assimilate.put").after()
+      end,
+      "Assimilate Put: Pull TS node and paste after cursor",
+    },
+    ["gP"] = {
+      function()
+        require("configs.flash.assimilate.put").before()
+      end,
+      "Assimilate Put: Pull TS node and paste before cursor",
+    },
+  },
+  x = {
+    ["ga"] = {
+      function()
+        require("configs.flash.assimilate").assimilate_visual_treesitter()
+      end,
+      "Assimilate: Pull remote TS node into selection",
+    },
   },
 }
 
