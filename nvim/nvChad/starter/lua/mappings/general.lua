@@ -15,44 +15,22 @@ M.general = {
         ["<leader><S-TAB>"] = {"<cmd> bprevious <CR>", "Prev buffer"},
         ["<leader>x"] = {"<cmd> b#|bd# <CR>", "Delete buffer (but keep current window)"},
         ["<leader>X"] = {"<cmd> bd <CR>", "Delete buffer and window"},
-        ["<leader>wc"] = {"<cmd> :clo <CR>", "Delete window window"},
-        ["<leader>ww"] = {function()
-            local node = vim.treesitter.get_node()
-            if not node then
-                return
-            end
-            local start_row, start_col = node:start()
-            local end_row, end_col = node:end_()
-            local node_info = {
-                type = node:type(),
-                start_row = start_row,
-                start_col = start_col,
-                end_row = end_row,
-                end_col = end_col
-            }
-            print(vim.inspect(node_info))
-
-            if node:type() == "function_declaration" or node:type() == "function" then
-                -- Different languages have different structure
-                -- Lua: function_declaration has a name as first child
-                local name_node = node:named_child(0)
-                local func_name = vim.treesitter.get_node_text(name_node, bufnr)
-                print("Function name: " .. func_name)
-            end
-
-        end, "Print current treesitter node"}
+        ["<leader>wc"] = {"<cmd> :clo <CR>", "Delete window only"},
     },
     n = {
         ["<Esc>"] = {"<cmd>noh<CR><Esc>", "Clear highlights and escape"},
 
         -- Meta stuff
         ["<leader>lzs"] = {"<cmd> Lazy sync <CR>", "Sync plugins"},
+
+        -- Current directory
         ["<leader>cd"] = {"<cmd> :cd %:p:h <CR>", "Set directory to current file's"},
         ["<leader>ycd"] = {function()
             vim.fn.setreg("*", current_file_dir())
         end, "Yank current file directory to clipboard"},
         ["<leader>ecd"] = {explore_current_file_dir, "Open explorer at current file's directory (windows)"},
 
+        -- Dashboards & project files
         ["ZW"] = {"<cmd> wa <CR>", "Save all files"},
         ["ZD"] = {return_to_dashboard(false), "Return to project dashboard"},
         ["ZDQ"] = {return_to_dashboard(true), "Return to dashboard"},
@@ -67,42 +45,26 @@ M.general = {
         ["<C-S-j>"] = {flick_command("0.75"), "Jump ↑ by ¼ screen"},
         ["<C-S-k>"] = {flick_command("-0.75"), "Jump ↓ by ¼ screen"},
 
-        -- Help with editing/writing text
+        -- Editing
         ["<leader><enter>"] = {":call feedkeys('] [ i')<cr>", "Insert mode with new line above and below."},
 
+        -- Diagnostics
         ["]d"] = {function()
             vim.diagnostic.goto_next()
         end, "Go to next diagnostic issue"},
         ["[d"] = {function()
             vim.diagnostic.goto_prev()
         end, "Go to previous diagnostic issue"}
-        -- Print out current mode on a delay (for debugging)
-        -- ["<leader>m"] = { function()
-        --   local timer = vim.loop.new_timer()
-        --   local print_timer = vim.loop.new_timer()
-        --   local curr_mode  = "n"
-        --   timer:start(1000, 0, function ()
-        --     curr_mode = vim.api.nvim_get_mode().mode
-        --     print("Got mode!!!")
-        --     print_timer:start(1000,0, function()
-        --       print("Mode is: "..curr_mode)
-        --       print_timer:stop()
-        --       print_timer:close()
-        --     end)
-        --     timer:stop()
-        --     timer:close()
-        --   end)
-        -- end
-        -- ,
     },
     i = {
-        ["<space> ="] = {" = ", "spaced equals"},
-        ["<space> >="] = {" >= ", "spaced greater than or equal to"},
-        ["<space> <="] = {" <= ", "spaced less than or equal to"},
-        ["<space> =="] = {" == ", "spaced equality"},
-        ["<space>=>"] = {" => ", "spaced arrow operator"},
-        ["{<space>"] = {"{  }<left><left>", "spaced curly braces"},
-        ["[<space>"] = {"[  ]<left><left>", "spaced square braces"}
+        -- Symbols
+        ["<space>="] = {" = ", "spaced equals"},
+        ["<space>>="] = {" >= ", "spaced greater than or equal to"},
+        ["<space><="] = {" <= ", "spaced less than or equal to"},
+        ["<space><space>="] = {" == ", "spaced equality"},
+        ["<space><space>>"] = {" => ", "spaced arrow operator"},
+        ["<space>{"] = {"{  }<left><left>", "spaced curly braces"},
+        ["<space>["] = {"[  ]<left><left>", "spaced square braces"}
     },
     c = {},
     v = {
