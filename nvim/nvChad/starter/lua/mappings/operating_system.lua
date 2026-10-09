@@ -12,7 +12,6 @@ M.operating_system = {
         ["<C-x>"] = {'"+d', "Cut selection to clipboard"},
     },
     n = {
-        ["<C-a>"] = {"ggVG", "Select all"},
         ["<C-z>"] = {"u", "Undo"},
         ["<C-y>"] = {"<C-r>", "Redo"},
         ["<C-S-z>"] = {"<C-r>", "Redo"},
@@ -24,6 +23,10 @@ M.operating_system = {
     c = {
         ["<C-v>"] = {"<C-r>+", "Paste from clipboard"},
     },
+    x = {
+        ["<C-a>"] = {"<Esc>ggVG", "Select all"},
+        ["<C-S-c>"] = {"<Esc>ggVGy", "Yank all"},
+    }
 }
 
 return M
