@@ -46,7 +46,11 @@ M.general = {
         ["<C-S-k>"] = {flick_command("-0.75"), "Jump ↓ by ¼ screen"},
 
         -- Editing
-        ["<leader><enter>"] = {":call feedkeys('] [ i')<cr>", "Insert mode with new line above and below."},
+        ["<leader><CR>"] = { "O<Esc>O<Esc>ji", "Insert mode with new line above and below" },
+        ["<leader>i"] = { "i  <Left>", "Insert mode with space around" },
+
+        -- Info
+        ["gh"] = { function() vim.lsp.buf.hover() end, "Open LSP hover menu" },
 
         -- Diagnostics
         ["]d"] = {function()
