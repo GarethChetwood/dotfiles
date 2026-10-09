@@ -10,7 +10,8 @@ M.general = {
         ["<C-p>"] = { "<cmd> Telescope find_files<CR>", "Find files" },
         ["<C-Tab>"] = {"<cmd> tabnext <CR>", "Switch to next tab"},
         ["<C-S-Tab>"] = {"<cmd> tabprev <CR>", "Switch to previous tab"},
-        -- cycle through buffers
+
+        -- buffers
         ["<leader><TAB>"] = {"<cmd> bnext <CR>", "Next buffer"},
         ["<leader><S-TAB>"] = {"<cmd> bprevious <CR>", "Prev buffer"},
         ["<leader>x"] = {"<cmd> b#|bd# <CR>", "Delete buffer (but keep current window)"},

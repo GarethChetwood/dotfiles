@@ -1,5 +1,11 @@
 local M = {}
 
+M.buf_only = {
+  n = {
+    ["<leader>bo"] = {"<cmd> :BufOnly <CR>", "Delete window only"},
+  },
+}
+
 M.cellular_automation = {
   n = {
     ["<leader>fml"] = { "<cmd>CellularAutomaton make_it_rain<CR>", "Make it rain (FML)" },
