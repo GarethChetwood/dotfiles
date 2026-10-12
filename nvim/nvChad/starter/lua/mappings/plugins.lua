@@ -24,29 +24,29 @@ M.flash = {
     ["<leader>flt"] = { function() require("flash").treesitter() end, "Flash: Treesitter" },
     ["ga"] = {
       function()
-        require("configs.flash.assimilate").assimilate_treesitter()
+        require("configs.flash.assimilate").assimilate()
       end,
-      "Assimilate: Pull remote TS node into motion",
+      "Assimilate: Pull remote motion/selection into local motion",
     },
     ["gp"] = {
       function()
         require("configs.flash.assimilate.put").after()
       end,
-      "Assimilate Put: Pull TS node and paste after cursor",
+      "Assimilate Put: Pull remote motion/selection and paste after cursor",
     },
     ["gP"] = {
       function()
         require("configs.flash.assimilate.put").before()
       end,
-      "Assimilate Put: Pull TS node and paste before cursor",
+      "Assimilate Put: Pull remote motion/selection and paste before cursor",
     },
   },
   x = {
     ["ga"] = {
       function()
-        require("configs.flash.assimilate").assimilate_visual_treesitter()
+        require("configs.flash.assimilate").assimilate_visual()
       end,
-      "Assimilate: Pull remote TS node into selection",
+      "Assimilate: Pull remote motion/selection into visual selection",
     },
   },
 }
